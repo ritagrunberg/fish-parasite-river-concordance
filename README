@@ -1,4 +1,6 @@
 Scripts and data files for host-parasite concordance analysis.
 
 - RARITAN_PLOT_CONCORDANCE.R script for concordance and PERMANOVA analysis for sites in the Raritan River
-- PASSAIC_PLOT_CONCORDANCE.R script for concordance and PERMANOVA analysis for sites in the Passaic River  
+- PASSAIC_PLOT_CONCORDANCE.R script for concordance and PERMANOVA analysis for sites in the Passaic River
+- concordance_figures.R script to create graphics analyzing procrustes residuals and protest heatmap figures
+- Data folder contains raw .csv files 
