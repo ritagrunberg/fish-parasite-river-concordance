@@ -1,0 +1,4 @@
+Scripts and data files for host-parasite concordance analysis.
+
+- RARITAN_PLOT_CONCORDANCE.R script for concordance and PERMANOVA analysis for sites in the Raritan River
+- PASSAIC_PLOT_CONCORDANCE.R script for concordance and PERMANOVA analysis for sites in the Passaic River  
