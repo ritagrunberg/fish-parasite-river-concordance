@@ -5,4 +5,5 @@ Scripts and data files for host-parasite concordance analysis within the Passaic
 - concordance_figures.R script to create graphics analyzing procrustes residuals and protest heatmap figures
 - host_parasite_univarite_diversity_metrics.R script for analyzing univariate diversity relationship between host and parasite richness, shannon and simpson diversity
 - bipartite_network_host_parasite.R script to make bipartite networks for each river
+- relative_abundance_matrix.R script to generate relative abundance matrix for fisha and parasite taxa across time and space within Raritan and Passaic Rivers. 
 - Data folder contains raw .csv files
