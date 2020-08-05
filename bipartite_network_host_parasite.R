@@ -8,6 +8,8 @@ library(ggpubr)  # nice package for figures
 library(vegan)   # nmds 
 library(bipartite)
 library(tidyverse)
+library(circlize)#chord diagram
+library(RColorBrewer) #color palette
 ###########################################################################################
 # create host-parasite bipartite networks for each river
 ###########################################################################################
@@ -26,7 +28,7 @@ river <- river %>% drop_na()
 parasite <- river  %>% 
   group_by(host_species, river) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
-  select(c(1,2, 28:64)) %>%  mutate_if(is.numeric, ~1 * (. != 0)) %>% 
+  select(c(1,2, 28:64)) %>%  #mutate_if(is.numeric, ~1 * (. != 0)) %>% 
   drop_na() %>% 
   gather(parasite, infection, 3:39)# %>%
   #filter(infection >0)
@@ -67,8 +69,31 @@ parasite$parasite<-gsub("pilum_adult","Pilum sp.",  parasite$parasite)
 parasite$parasite<-gsub("tapeworm_sp2","Adult tapeworm 1",  parasite$parasite)
 parasite$host_species<-gsub("Etheostoma olmstedi_","Etheostoma olmstedi",  parasite$host_species)
 
-#matrix for passaic river 
+## chord diagram for network
+parasite_passaic <- parasite %>%
+  filter(river=="Passaic") %>% 
+  select(-c(river)) %>%
+  group_by(parasite, host_species) %>% 
+  summarise_at(c("infection"), sum)
 
+col_mat = rand_color(length(parasite_passaic), transparency = 0.5)
+
+
+#### chord diagram instead of traditional diagram
+jpeg(filename="chorddiagram_passaic_river.jpeg", width=180, height=180,units="mm", bg="white", res=300)
+plot.new()
+par(cex = 0.5, mar = c(0, 0, 0, 0))
+chordDiagram(parasite_passaic, preAllocateTracks = 1, annotationTrack = "grid", directional = 1)
+circos.trackPlotRegion(track.index = 1, panel.fun = function(x, y) {
+  xlim = get.cell.meta.data("xlim")
+  ylim = get.cell.meta.data("ylim")
+  sector.name = get.cell.meta.data("sector.index")
+  circos.text(mean(xlim), ylim[1] + .1, sector.name, facing = "clockwise", niceFacing = TRUE, adj = c(0, 0.5))
+  circos.axis(h = "top", labels.cex = 0.5, major.tick.percentage = 0.1, sector.index = sector.name, track.index = 2)
+}, bg.border = NA)
+dev.off()
+
+#matrix for passaic river 
 par_mat_passaic <- parasite %>% 
   filter(river=="Passaic") %>% 
   group_by(parasite) %>%
@@ -84,7 +109,32 @@ plotweb(par_mat_passaic, y.width.low=0.05, y.width.high=0.05,  text.rot = 90,y.l
         arrow="down",col.high="orange")
 #dev.off()
 
+#####################################################
+#raritan
+#####################################################
+
 #matrix for raritan river 
+## chord diagram for network
+parasite_raritan <- parasite %>%
+  filter(river=="Raritan") %>% 
+  select(-c(river)) %>%
+  group_by(parasite, host_species) %>% 
+  summarise_at(c("infection"), sum)
+
+#### chord diagram instead of traditional diagram
+
+jpeg(filename="chorddiagram_raritan_river.jpeg", width=180, height=180,units="mm", bg="white", res=300)
+plot.new()
+par(cex = 0.5, mar = c(0, 0, 0, 0))
+chordDiagram(parasite_raritan, preAllocateTracks = 1, annotationTrack = "grid", directional = 1)
+circos.trackPlotRegion(track.index = 1, panel.fun = function(x, y) {
+  xlim = get.cell.meta.data("xlim")
+  ylim = get.cell.meta.data("ylim")
+  sector.name = get.cell.meta.data("sector.index")
+  circos.text(mean(xlim), ylim[1] + .1, sector.name, facing = "clockwise", niceFacing = TRUE, adj = c(0, 0.5))
+  circos.axis(h = "top", labels.cex = 0.5, major.tick.percentage = 0.1, sector.index = sector.name, track.index = 2)
+}, bg.border = NA)
+dev.off()
 
 par_mat_raritan <- parasite %>% 
   filter(river=="Raritan") %>% 
