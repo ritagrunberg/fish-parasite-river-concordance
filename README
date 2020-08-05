@@ -7,4 +7,7 @@ Scripts and data files for host-parasite concordance analysis within the Passaic
 - bipartite_network_host_parasite.R script to make bipartite networks for each river
 - relative_abundance_matrix.R script to generate relative abundance matrix for fish and parasite taxa across time and space within Raritan and Passaic Rivers. 
 = converage_sample_based_rarefaction.R script to rarefy host and parasite richness using both coverage and sample based rarefaction
-- Data folder contains raw .csv files
+
+- Data folder contains raw data 
+      - final_river_data.csv contains all host-parasite survey data along with environmental data
+      - river_coordinates.csv contains lat/long coordinates of river sites and catchment area 
