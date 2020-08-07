@@ -26,18 +26,17 @@ envi <- river  %>%
 
 
 parasite <- river  %>% 
-  group_by(river, plot) %>%
+  group_by(river, plot, season) %>%
   # summarise_if(.predicate = function(x) is.numeric(x), .funs = funs(mean="mean"))
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
-  unite(river_plot, river, plot, season, sep = '_') #merge characters from columns into one thing
-
+  unite(river_plot_season, river, plot, season, season, sep = '_') #merge characters from columns into one thing
 
 p_matrix<-parasite[,c(26:63)] # makes new matrix with parasite data (columns 28-65)
-id <- unique(parasite$river_plot_seasaon)
+id <- unique(parasite$river_plot_season)
 
 
-rownames(p_matrix) <- c("passaic_1upstream", "passaic_2midstream", "passaic_3downstream",
-                        "raritan_1upstream", "raritan_2midstream", "raritan_3downstream") 
+#rownames(p_matrix) <- c("passaic_1upstream", "passaic_2midstream", "passaic_3downstream",
+ #                       "raritan_1upstream", "raritan_2midstream", "raritan_3downstream") 
 
 
 #rownames(p_matrix) <- c("Raritan_1_fall"  , "Raritan_1_spring" ,"Raritan_1_summer" ,"Raritan_1_winter" 
@@ -49,28 +48,62 @@ p_matrix <- as.matrix(p_matrix)
 ############################################################################################
 
 plist = lapply(as.list(1:dim(p_matrix)[1]), function(x) p_matrix[x[1],])
-plist = list(passaic1_upstream = p_matrix[1,],
-             passaic2_midstream = p_matrix[2,],
-             passaic3_downstream = p_matrix[3,]
+#plist = list(passaic1_upstream = p_matrix[1,],
+ #           passaic2_midstream = p_matrix[2,],
+  #           passaic3_downstream = p_matrix[3,]
+   #          )
+
+plist = list(passaic1_upstream_fall = p_matrix[1,],
+             passaic1_upstream_spring = p_matrix[2,],
+             passaic1_upstream_summer = p_matrix[3,],
+             passaic1_upstream_winter = p_matrix[4,],
+             passaic2_midstream_fall = p_matrix[5,],
+             passaic2_midstream_spring = p_matrix[6,],
+             passaic2_midstream_summer = p_matrix[7,],
+             passaic2_midstream_winter = p_matrix[8,],
+             passaic3_upstream_fall = p_matrix[9,],
+             passaic3_upstream_spring = p_matrix[10,],
+             passaic3_upstream_summer = p_matrix[11,],
+             passaic3_upstream_winter = p_matrix[12,]
              )
 
 
 #out <- iNEXT(p_matrix, q=c(0), datatype="abundance")
+#m <- c(1, 100, 200, 500, 1000, 3000, 7500)
 m <- c(1, 100, 200, 500, 1000, 3000, 7500)
-out <- iNEXT(plist, q=c(0), datatype="abundance", nboot=999, size = m)
+out <- iNEXT(plist, q=c(0), datatype="abundance", size =m)
 out
 out$iNextEst
-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+
+#### export info
+passaic_diversity <-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+passaic_richness <- passaic_diversity %>% filter(Diversity=='Species richness') 
+
+
+#### graph richness 
+pparasite <-passaic_richness %>%
+  ggplot()+
+  geom_point(aes(x=Estimator,y = Site),size=2)+
+  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  labs(x="richness",y= "")+
+  theme_bw()
+  
 #################### Sample completeness curves #######################
-passaic_rarefaction1 <-ggiNEXT(out, type=1, color.var="site", se=FALSE) +
+passaic_rarefaction1 <-ggiNEXT(out, type=1, color.var="site",
+                               facet.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
   ggtitle("Passaic Paraste: sample based rarefaction")+
   theme(legend.position="bottom")+
-  scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                    labels = c("upstream","midstream", "downstream"))+
-  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                     labels = c("upstream","midstream", "downstream"))+
+ # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                  labels = c("upstream","midstream", "downstream"))+
+  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
+   #                             '#9ecae1','#4292c6','#2171b5','#084594',
+    #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
+                    #labels = c("upstream","midstream", "downstream")
+     #               )+
+#  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+ #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
 ######################## Coverage-based R/E curves ##################
@@ -98,24 +131,56 @@ dev.off()
 ############################################################################################
 ############################################################################################
 
-rlist = list(raritan1_upstream = p_matrix[4,],
-             raritan2_midstream = p_matrix[5,],
-             raritan3_downstream = p_matrix[6,]
-)
+#rlist = list(raritan1_upstream = p_matrix[4,],
+  #           raritan2_midstream = p_matrix[5,],
+ #            raritan3_downstream = p_matrix[6,]
+#)
  
+rlist = list(raritan1_upstream_fall = p_matrix[13,],
+             raritan1_upstream_spring = p_matrix[14,],
+            # raritan1_upstream_summer = p_matrix[15,],
+             raritan1_upstream_winter = p_matrix[16,],
+             raritan2_midstream_fall = p_matrix[17,],
+             raritan2_midstream_spring = p_matrix[18,],
+             raritan2_midstream_summer = p_matrix[19,],
+             raritan2_midstream_winter = p_matrix[20,],
+             raritan3_upstream_fall = p_matrix[21,],
+             raritan3_upstream_spring = p_matrix[22,],
+             raritan3_upstream_summer = p_matrix[23,],
+             raritan3_upstream_winter = p_matrix[24,]
+)
+
 m2 <- c(1, 100, 200, 500, 1000, 5000, 7000, 10000, 15000, 20000, 25000)
 out2 <- iNEXT(rlist, q=c(0), datatype="abundance", size=m2, nboot=999)
 
+#### export info
+raritan_diversity <-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+raritan_richness <- raritan_diversity %>% filter(Diversity=='Species richness') 
+
+#### graph richness 
+rparasite <-raritan_richness %>%
+  ggplot()+
+  geom_point(aes(x=Estimator,y = Site), size=2)+
+  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  labs(x="richness",y= "")+
+  theme_bw()
+
 ###########rarefaction curve 
-raritan_rarefaction1 <-ggiNEXT(out2, type=1, color.var="site", se=FALSE) +
+raritan_rarefaction1 <-ggiNEXT(out2, type=1, color.var="site",
+                               facet.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Raritan Parasite: sample based rarefaction")+
+  ggtitle("Passaic Paraste: sample based rarefaction")+
   theme(legend.position="bottom")+
-  scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                    labels = c("upstream","midstream", "downstream"))+
-  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                     labels = c("upstream","midstream", "downstream"))+
+  # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                  labels = c("upstream","midstream", "downstream"))+
+  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
+  #                             '#9ecae1','#4292c6','#2171b5','#084594',
+  #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
+  #labels = c("upstream","midstream", "downstream")
+  #               )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
 #################### Sample completeness curves ######################
@@ -148,32 +213,65 @@ fish_01 <- river %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% spread(host_species, abun)
 fish_01[,26:ncol((fish_01))][is.na(fish_01[,26:ncol((fish_01))])] <- 0
 fish <- fish_01 %>%
-  group_by(river, plot) %>%
+  group_by(river, plot, season) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) 
 fish <- fish[,-c(1:65,91)] # remove parasite data
 
 fish <- as.matrix(fish)
-rownames(fish) <- c("passaic_upstream", "passaic_midstream", "passaic_downstream",
-                    "raritan_upstream", "raritan_midstream", "raritan_downstream") 
+#rownames(fish) <- c("passaic_upstream", "passaic_midstream", "passaic_downstream",
+ #                   "raritan_upstream", "raritan_midstream", "raritan_downstream") 
 
-pflist = list(passaic1_upstream = fish[1,],
-             passaic2_midstream = fish[2,],
-             passaic3_downstream = fish[3,]
+#pflist = list(passaic1_upstream = fish[1,],
+ #            passaic2_midstream = fish[2,],
+  #           passaic3_downstream = fish[3,]
+#)
+
+pflist = list(passaic1_upstream_fall = fish[1,],
+             passaic1_upstream_spring = fish[2,],
+             passaic1_upstream_summer = fish[3,],
+             passaic1_upstream_winter = fish[4,],
+             passaic2_midstream_fall = fish[5,],
+             passaic2_midstream_spring = fish[6,],
+             passaic2_midstream_summer = fish[7,],
+             passaic2_midstream_winter = fish[8,],
+             passaic3_upstream_fall = fish[9,],
+             passaic3_upstream_spring = fish[10,],
+             passaic3_upstream_summer = fish[11,],
+             passaic3_upstream_winter = fish[12,]
 )
-
 m3 <- c(1, 10, 50, 100, 125, 150, 200)
 
 out3 <- iNEXT(pflist, q=c(0), datatype ="abundance", nboot=999, size=m3)
+
+#### export info
+passaicfish_diversity <-out3$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+passaicfish_richness <- passaicfish_diversity %>% filter(Diversity=='Species richness') 
+
+
+#### graph richness 
+pfish <-passaicfish_richness %>%
+  ggplot()+
+  geom_point(aes(x=Estimator,y = Site),size=2)+
+  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  labs(x="richness",y= "")+
+  theme_bw()
+
 ###########rarefaction curve 
-passaic_rarefaction1f <-ggiNEXT(out3, type=1, color.var="site", se=FALSE) +
+passaic_rarefaction1f <-ggiNEXT(out3,  type=1, color.var="site",
+                                facet.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Passaic Fish: sampled based rarefaction")+
+  ggtitle("Passaic Paraste: sample based rarefaction")+
   theme(legend.position="bottom")+
-  scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                    labels = c("upstream","midstream", "downstream"))+
-  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                     labels = c("upstream","midstream", "downstream"))+
+  # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                  labels = c("upstream","midstream", "downstream"))+
+  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
+  #                             '#9ecae1','#4292c6','#2171b5','#084594',
+  #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
+  #labels = c("upstream","midstream", "downstream")
+  #               )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
 #################### Sample completeness curves #######################
@@ -198,25 +296,58 @@ dev.off()
 ############################################################################################
 ############################################################################################
 
-rflist = list(raritan1_upstream = fish[4,],
-              raritan2_midstream = fish[5,],
-              raritan3_downstream = fish[6,]
+#rflist = list(raritan1_upstream = fish[4,],
+ #             raritan2_midstream = fish[5,],
+  #            raritan3_downstream = fish[6,]
+#)
+
+rflist = list(raritan1_upstream_fall = fish[13,],
+             raritan1_upstream_spring = fish[14,],
+             # raritan1_upstream_summer = fish[15,],
+             raritan1_upstream_winter = fish[16,],
+             raritan2_midstream_fall = fish[17,],
+             raritan2_midstream_spring = fish[18,],
+             raritan2_midstream_summer = fish[19,],
+             raritan2_midstream_winter = fish[20,],
+             raritan3_upstream_fall = fish[21,],
+             raritan3_upstream_spring = fish[22,],
+             raritan3_upstream_summer = fish[23,],
+             raritan3_upstream_winter = fish[24,]
 )
 
 m4 <- c(1, 10, 50, 100,  150, 200, 400, 600, 800)
 
 out4 <- iNEXT(rflist, q=c(0), datatype="abundance", nboot=999, size=m4)
 out4$DataInfo
+
+#### export info
+raritanfish_diversity <-out4$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+raritanfish_richness <- raritanfish_diversity %>% filter(Diversity=='Species richness') 
+
+#### graph richness 
+rfish <-raritanfish_richness %>%
+  ggplot()+
+  geom_point(aes(x=Estimator,y = Site), size=2)+
+  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  labs(x="richness",y= "")+
+  theme_bw()
+
 ###########rarefaction curve 
-raritan_rarefaction1f <-ggiNEXT(out4, type=1, color.var="site", se=FALSE) +
+raritan_rarefaction1f <-ggiNEXT(out4, type=1, color.var="site",
+                                facet.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Raritan Fish: sampled based rarefaction")+
+  ggtitle("Passaic Paraste: sample based rarefaction")+
   theme(legend.position="bottom")+
-  scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                    labels = c("upstream","midstream", "downstream"))+
-  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-                     labels = c("upstream","midstream", "downstream"))+
+  # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                  labels = c("upstream","midstream", "downstream"))+
+  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
+  #                             '#9ecae1','#4292c6','#2171b5','#084594',
+  #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
+  #labels = c("upstream","midstream", "downstream")
+  #               )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
 #################### Sample completeness curves #######################
@@ -250,12 +381,16 @@ ggarrange(raritan_rarefaction1, raritan_rarefaction1f,
           ncol=2, nrow=2, common.legend = TRUE)
 dev.off()
 
-jpeg(filename="rarefaction_curves_river.jpeg", width=200, height=300, units="mm", bg="white", res=300)
+jpeg(filename="rarefaction_curves_river.jpeg", width=200, height=200, units="mm", bg="white", res=300)
 ggarrange(passaic_rarefaction1, passaic_coverage1, 
           passaic_rarefaction1f, passaic_coverage1f,
           raritan_rarefaction1, raritan_coverage1,
           raritan_rarefaction1f, raritan_coverage1f,
           widths  = c(0.9, 1), ncol=2, nrow=4, common.legend = TRUE)
+dev.off()
+
+jpeg(filename="richness_estimator_values.jpeg", width=270, height=180, units="mm", bg="white", res=300)
+ggarrange(pparasite, rparasite, pfish, rfish, ncol=2, nrow=2)
 dev.off()
 ############################################################################################
 ############################################################################################
