@@ -100,7 +100,7 @@ out.up.1 <- iNEXT(plist.upstream, q=c(0), datatype="abundance", size =m)
 passaic_rarefaction.upstream <-ggiNEXT(out.up.1, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Upstream Passaic: Paraste richness sample rarefaction")+
+  ggtitle("Upstream Passaic: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
    scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                     #labels = c("upstream","midstream", "downstream")
@@ -113,7 +113,7 @@ passaic_rarefaction.upstream <-ggiNEXT(out.up.1, type=1, color.var="site", se=FA
 passaic_coverage.up.1 <-ggiNEXT(out.up.1, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Upstream Passaic: Paraste richness coverage rarefaction")+
+  ggtitle("Upstream Passaic: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -138,7 +138,7 @@ out.mid.1 <- iNEXT(plist.midstream, q=c(0), datatype="abundance", size =m)
 passaic_rarefaction.midstream <-ggiNEXT(out.mid.1, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Midstream Passaic: Paraste richness sample rarefaction")+
+  ggtitle("Midstream Passaic: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -151,7 +151,7 @@ passaic_rarefaction.midstream <-ggiNEXT(out.mid.1, type=1, color.var="site", se=
 passaic_coverage.mid.1 <-ggiNEXT(out.mid.1, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Midstream Passaic: Paraste richness coverage rarefaction")+
+  ggtitle("Midstream Passaic: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -176,7 +176,7 @@ out.down.1 <- iNEXT(plist.downstream, q=c(0), datatype="abundance", size =m)
 passaic_rarefaction.downstream <-ggiNEXT(out.down.1, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Downstream Passaic: Paraste richness sample rarefaction")+
+  ggtitle("Downstream Passaic: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -189,7 +189,7 @@ passaic_rarefaction.downstream <-ggiNEXT(out.down.1, type=1, color.var="site", s
 passaic_coverage.down.1 <-ggiNEXT(out.down.1, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Downstream Passaic: Paraste richness coverage rarefaction")+
+  ggtitle("Downstream Passaic: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -241,6 +241,7 @@ rparasite <-raritan_richness %>%
   geom_point(aes(x=Estimator,y = Site), size=2)+
   geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
   labs(x="richness",y= "")+
+  ggtitle("Parasite Raritan River")+
   theme_bw()
 
 ######### upstream site only 
@@ -255,7 +256,7 @@ out.up.2 <- iNEXT(rlist.upstream, q=c(0), datatype="abundance", size =m2)
 raritan_rarefaction.upstream <-ggiNEXT(out.up.2, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Upstream Raritan: Paraste richness sample rarefaction")+
+  ggtitle("Upstream Raritan: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -268,7 +269,7 @@ raritan_rarefaction.upstream <-ggiNEXT(out.up.2, type=1, color.var="site", se=FA
 raritan_coverage.up.1 <-ggiNEXT(out.up.2, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Upstream Raritan: Paraste richness coverage rarefaction")+
+  ggtitle("Upstream Raritan: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -292,7 +293,7 @@ out.mid.2 <- iNEXT(rlist.midstream, q=c(0), datatype="abundance", size =m2)
 raritan_rarefaction.midstream <-ggiNEXT(out.mid.2, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Midstream Raritan: Paraste richness sample rarefaction")+
+  ggtitle("Midstream Raritan: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -305,7 +306,7 @@ raritan_rarefaction.midstream <-ggiNEXT(out.mid.2, type=1, color.var="site", se=
 raritan_coverage.mid.1 <-ggiNEXT(out.mid.2, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Midstream Raritan: Paraste richness coverage rarefaction")+
+  ggtitle("Midstream Raritan: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -330,7 +331,7 @@ out.down.2 <- iNEXT(rlist.downstream, q=c(0), datatype="abundance", size =m2)
 raritan_rarefaction.downstream <-ggiNEXT(out.down.2, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Downstream Raritan: Paraste richness sample rarefaction")+
+  ggtitle("Downstream Raritan: Parasite richness sample rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -343,7 +344,7 @@ raritan_rarefaction.downstream <-ggiNEXT(out.down.2, type=1, color.var="site", s
 raritan_coverage.down.1 <-ggiNEXT(out.down.1, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Downstream raritan: Paraste richness coverage rarefaction")+
+  ggtitle("Downstream raritan: Parasite richness coverage rarefaction")+
   theme(legend.position="bottom")+
   scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
                      #labels = c("upstream","midstream", "downstream")
@@ -410,43 +411,124 @@ pfish <-passaicfish_richness %>%
   geom_point(aes(x=Estimator,y = Site),size=2)+
   geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
   labs(x="richness",y= "")+
+  ggtitle("Fish Passaic River")+
   theme_bw()
 
-###########rarefaction curve 
-passaic_rarefaction1f <-ggiNEXT(out3,  type=1, color.var="site",
-                                facet.var="site", se=FALSE) +
+######### upstream site only 
+pflist.upstream = list(fall = fish[1,],
+                      spring = fish[2,],
+                      summer = fish[3,],
+                      winter = fish[4,]
+)
+out.up.1f <- iNEXT(pflist.upstream, q=c(0), datatype="abundance", size =m3)
+
+#################### Sample completeness curves #######################
+passaic_rarefaction.upstream.fish <-ggiNEXT(out.up.1f, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Passaic Paraste: sample based rarefaction")+
+  ggtitle("Upstream Passaic: Fish richness sample rarefaction")+
   theme(legend.position="bottom")+
-  # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-  #                  labels = c("upstream","midstream", "downstream"))+
-  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
-  #                             '#9ecae1','#4292c6','#2171b5','#084594',
-  #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
-  #labels = c("upstream","midstream", "downstream")
-  #               )+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
   #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
   #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
-#################### Sample completeness curves #######################
-passaic_coverage1f <-ggiNEXT(out3, type=3, color.var="site", facet.var="site", grey=TRUE) +
+######################## Coverage-based R/E curves ##################
+passaic_coverage.up.1.fish <-ggiNEXT(out.up.1f, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  theme(legend.position="none")+
-  ggtitle("Passaic Fish: coverage based rarefaction")
+  ggtitle("Upstream Passaic: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
+
+##############################################################################################
+##############################################################################################
+
+pflist.midstream = list(
+  fall = fish[5,],
+  spring = fish[6,],
+  summer = fish[7,],
+  winter = fish[8,]
+)
+
+out.mid.1f <- iNEXT(pflist.midstream, q=c(0), datatype="abundance", size =m3)
+
+#################### Sample completeness curves #######################
+passaic_rarefaction.midstream.fish <-ggiNEXT(out.mid.1f, type=1, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Midstream Passaic: Fish richness sample rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
 
 ######################## Coverage-based R/E curves ##################
-passaic_coverage2f <-ggiNEXT(out3, type=3, color.var ="site") + 
-  # xlim(c(0.9,1)) +
-  theme_bw(base_size = 10) +
-  theme(legend.position="bottom",
-        legend.title=element_blank())+
-  ggtitle("Passaic River fish coverage based rarifcation ")
+passaic_coverage.mid.1.fish <-ggiNEXT(out.mid.1f, type=3, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Midstream Passaic: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
 
-jpeg(filename="passaic_fish_coverage.jpeg", width=175, height=250, units="mm", bg="white", res=300)
-ggarrange(passaic_coverage1f, passaic_coverage2f, ncol=1, nrow=2)
+##############################################################################################
+##############################################################################################
+
+pflist.downstream = list(
+  fall = fish[9,],
+  spring = fish[10,],
+  summer = fish[11,],
+  winter = fish[12,]
+)
+
+out.down.1f<- iNEXT(pflist.downstream, q=c(0), datatype="abundance", size =m3)
+
+#################### Sample completeness curves #######################
+passaic_rarefaction.downstream.fish <-ggiNEXT(out.down.1f, type=1, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Downstream Passaic: Fish richness sample rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
+
+######################## Coverage-based R/E curves ##################
+passaic_coverage.down.1.fish <-ggiNEXT(out.down.1f, type=3, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Downstream Passaic: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
+
+jpeg(filename="passaic_fish_coverage.jpeg", width=250, height=300,  units="mm", bg="white", res=300)
+ggarrange(passaic_rarefaction.upstream.fish, passaic_coverage.up.1.fish,
+          passaic_rarefaction.midstream.fish, passaic_coverage.mid.1.fish,
+          passaic_rarefaction.downstream.fish, passaic_coverage.down.1.fish,
+          ncol=2, nrow=3, common.legend = TRUE)
 dev.off()
 
 ############################################################################################
@@ -465,13 +547,13 @@ rflist = list(raritan1_upstream_fall = fish[13,],
              raritan2_midstream_spring = fish[18,],
              raritan2_midstream_summer = fish[19,],
              raritan2_midstream_winter = fish[20,],
-             raritan3_upstream_fall = fish[21,],
-             raritan3_upstream_spring = fish[22,],
-             raritan3_upstream_summer = fish[23,],
-             raritan3_upstream_winter = fish[24,]
+             raritan3_downstream_fall = fish[21,],
+             raritan3_downstream_spring = fish[22,],
+             raritan3_downstream_summer = fish[23,],
+             raritan3_downstream_winter = fish[24,]
 )
 
-m4 <- c(1, 10, 50, 100,  150, 200, 400, 600, 800)
+m4 <- c(1, 10, 50, 100,  150, 200, 400, 600, 1200)
 
 out4 <- iNEXT(rflist, q=c(0), datatype="abundance", nboot=999, size=m4)
 out4$DataInfo
@@ -486,64 +568,126 @@ rfish <-raritanfish_richness %>%
   geom_point(aes(x=Estimator,y = Site), size=2)+
   geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
   labs(x="richness",y= "")+
+  ggtitle("Fish Raritan River")+
   theme_bw()
 
-###########rarefaction curve 
-raritan_rarefaction1f <-ggiNEXT(out4, type=1, color.var="site",
-                                facet.var="site", se=FALSE) +
+############################################################################################
+######### upstream site only 
+rflist.upstream = list(fall = fish[13,],
+                      spring = fish[14,],
+                      # summer = fish[15,],
+                      winter = fish[16,]
+)
+out.up.2f <- iNEXT(rflist.upstream, q=c(0), datatype="abundance", size =m4)
+
+#################### Sample completeness curves #######################
+raritan_rarefaction.upstream.fish <-ggiNEXT(out.up.2f, type=1, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  ggtitle("Passaic Paraste: sample based rarefaction")+
+  ggtitle("Upstream Raritan: Fish richness sample rarefaction")+
   theme(legend.position="bottom")+
-  # scale_fill_manual(values=c('#1b9e77','#d95f02','#7570b3'),
-  #                  labels = c("upstream","midstream", "downstream"))+
-  # scale_color_manual(values=c(  '#99d8c9','#41ae76','#238b45','#005824',
-  #                             '#9ecae1','#4292c6','#2171b5','#084594',
-  #                            '#bcbddc','#807dba','#6a51a3','#4a1486')#,
-  #labels = c("upstream","midstream", "downstream")
-  #               )+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
   #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
   #                    labels = c("upstream","midstream", "downstream"))+
   guides(shape=FALSE)
 
-#################### Sample completeness curves #######################
-raritan_coverage1f <-ggiNEXT(out4, type=3, color.var="site", facet.var="site", grey=TRUE) +
+######################## Coverage-based R/E curves ##################
+raritan_coverage.up.1.fish <-ggiNEXT(out.up.2f, type=3, color.var="site", se=FALSE) +
   #ylim(c(0.9,1)) +
   theme_bw(base_size = 10) + 
-  theme(legend.position="none")  +
-  ggtitle("Raritan Fish: coverage based rarefaction")
+  ggtitle("Upstream Raritan: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
 
+##############################################################################################
+##############################################################################################
+rflist.midstream = list(
+  fall = fish[17,],
+  spring = fish[18,],
+  summer = fish[19,],
+  winter = fish[20,]
+)
+
+out.mid.2f <- iNEXT(rflist.midstream, q=c(0), datatype="abundance", size =m4)
+
+#################### Sample completeness curves #######################
+raritan_rarefaction.midstream.fish <-ggiNEXT(out.mid.2f, type=1, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Midstream Raritan: Fish richness sample rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
 
 ######################## Coverage-based R/E curves ##################
-raritan_coverage2f <-ggiNEXT(out4, type=3, color.var ="site") + 
-  # xlim(c(0.5,1)) +
-  theme_bw(base_size = 10) +
-  theme(legend.position="bottom",
-        legend.title=element_blank())+
-  ggtitle("Raritan River fish coverage based rarifcation ")
+raritan_coverage.mid.1.fish <-ggiNEXT(out.mid.2f, type=3, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Midstream Raritan: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
 
-jpeg(filename="coverage_rarefaction.jpeg", width=175, height=250, units="mm", bg="white", res=300)
-ggarrange(passaic_coverage1, passaic_coverage1f,
-          raritan_coverage1, raritan_coverage1f, ncol=2, nrow=2)
-dev.off()
+##############################################################################################
+##############################################################################################
 
-jpeg(filename="coverage_rarifcation_rivers.jpeg", width=300, height=300, units="mm", bg="white", res=300)
-ggarrange(passaic_coverage2, passaic_coverage2f, raritan_coverage2, raritan_coverage2f, ncol=2, nrow=2)
-dev.off()
+rflist.downstream = list(
+  fall = fish[21,],
+  spring = fish[22,],
+  summer = fish[23,],
+  winter = fish[24,]
+)
 
-jpeg(filename="rarefaction_curves_river.jpeg", width=180, height=180, units="mm", bg="white", res=300)
-ggarrange(raritan_rarefaction1, raritan_rarefaction1f, 
-          passaic_rarefaction1, passaic_rarefaction1f,
-          ncol=2, nrow=2, common.legend = TRUE)
-dev.off()
+out.down.2f <- iNEXT(rflist.downstream, q=c(0), datatype="abundance", size =m4)
 
-jpeg(filename="rarefaction_curves_river.jpeg", width=200, height=200, units="mm", bg="white", res=300)
-ggarrange(passaic_rarefaction1, passaic_coverage1, 
-          passaic_rarefaction1f, passaic_coverage1f,
-          raritan_rarefaction1, raritan_coverage1,
-          raritan_rarefaction1f, raritan_coverage1f,
-          widths  = c(0.9, 1), ncol=2, nrow=4, common.legend = TRUE)
+#################### Sample completeness curves #######################
+raritan_rarefaction.downstream.fish <-ggiNEXT(out.down.2f, type=1, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Downstream Raritan: Fish richness sample rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
+
+######################## Coverage-based R/E curves ##################
+raritan_coverage.down.1.fish <-ggiNEXT(out.down.2f, type=3, color.var="site", se=FALSE) +
+  #ylim(c(0.9,1)) +
+  theme_bw(base_size = 10) + 
+  ggtitle("Downstream raritan: Fish richness coverage rarefaction")+
+  theme(legend.position="bottom")+
+  scale_color_manual(values=c( '#a6611a','#dfc27d','#80cdc1','#018571')#,
+                     #labels = c("upstream","midstream", "downstream")
+  )+
+  #  scale_color_manual(values=c('#1b9e77','#d95f02','#7570b3'),
+  #                    labels = c("upstream","midstream", "downstream"))+
+  guides(shape=FALSE)
+
+jpeg(filename="raritan_fish_coverage.jpeg", width=250, height=300,  units="mm", bg="white", res=300)
+ggarrange(raritan_rarefaction.upstream.fish, raritan_coverage.up.1.fish,
+          raritan_rarefaction.midstream.fish, raritan_coverage.mid.1.fish,
+          raritan_rarefaction.downstream.fish, raritan_coverage.down.1.fish,
+          ncol=2, nrow=3, common.legend = TRUE)
 dev.off()
+##########################################################################
 
 jpeg(filename="richness_estimator_values.jpeg", width=270, height=180, units="mm", bg="white", res=300)
 ggarrange(pparasite, rparasite, pfish, rfish, ncol=2, nrow=2)
