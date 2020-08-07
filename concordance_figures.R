@@ -14,6 +14,7 @@ residuals_host_raritan <- read_csv("C:/Users/grunberg/Documents/Concordance_subm
 
 passaic_river_protest <- read_csv("C:/Users/grunberg/Documents/Concordance_submitted_MS/Revision/data_files/passaic_river_protest.csv")
 raritan_river_protest <- read_csv("C:/Users/grunberg/Documents/Concordance_submitted_MS/Revision/data_files/raritan_river_protest.csv")
+###################################################
 
 residuals_concordance <- rbind(residuals_passaic, residuals_raritan) 
 residuals_host_concordance <- rbind(residuals_host_passaic, residuals_host_raritan) 
@@ -69,7 +70,8 @@ pval_matrix_raritan$river <- "Raritan"
 #passaic matrix 
 protest_matrix_passaic <- protest_matrix %>%
   filter(river =="Passaic") %>%
-  group_by(var1, var2) %>% summarise_at(c('ms_square'),mean) %>% 
+  group_by(var1, var2) %>% 
+  summarise_at(c('ms_square'),mean) %>% 
   ungroup()%>%
   spread(var2, ms_square)%>%
   arrange(factor(var1, levels = c("parasite",  "parasite_pa", "fish", "fish_biomass" ,"fish_pa", "physical" , "chemical"))) %>%
@@ -91,6 +93,8 @@ protest_matrix_passaic$river <- "Passaic"
 pval_matrix_passaic<- get_lower_tri(pval_matrix_passaic)
 pval_matrix_passaic$river <- "Passaic"
 
+##############################################################
+# create heatmap of procrustes analysis; shows pairwise comparisions of ordinations 
 ##############################################################
 formatted_pro_mat <- rbind(protest_matrix_raritan, protest_matrix_passaic)
 formatted_pro_mat <- formatted_pro_mat %>% gather(var2, ms_square, 2:8)
@@ -139,9 +143,15 @@ formatted_pro_mat %>%
   scale_x_discrete(labels=c("parasite_pa" = "parasite (PA)", "fish_biomass" = "fish (biomass)", "fish_pa" = "fish (PA)"))+
   scale_y_discrete(labels=c("parasite_pa" = "parasite (PA)", "fish_biomass" = "fish (biomass)", "fish_pa" = "fish (PA)"))
 dev.off()
+
+#################################################################################################################
+#supplemental analysis; extracted procrustes residuals and asked whether they differ among seasons 
 #################################################################################################################
 
-parasite_host <- residuals_concordance %>%  mutate_at(c('plot'), as.factor) %>%
+
+### residuals of parasite and host presence absence ordination comparisons  
+parasite_host <- residuals_concordance %>%  
+  mutate_at(c('plot'), as.factor) %>%
   ggplot()+ 
   annotate("rect", xmin = 1.5, xmax = 2.5, ymin = 0, ymax = 0.45,alpha = .15, fill="black")+
   annotate("rect", xmin = 3.5, xmax = 4.5, ymin = 0, ymax = 0.45,alpha = .15, fill="black")+
@@ -168,6 +178,7 @@ parasite_host <- residuals_concordance %>%  mutate_at(c('plot'), as.factor) %>%
   annotate("text", x = 4, y = 0.35, label = "ab", size=5) + 
   ggtitle("Parasite (PA) and fish (PA) comparision")
 
+### residuals of host and physical envi ordination comparisons  
 host_envi <- residuals_host_concordance %>%  mutate_at(c('plot'), as.factor) %>%
   ggplot()+ 
   annotate("rect", xmin = 1.5, xmax = 2.5, ymin = 0, ymax = 0.45,alpha = .15, fill="black")+
@@ -188,13 +199,13 @@ host_envi <- residuals_host_concordance %>%  mutate_at(c('plot'), as.factor) %>%
   ggtitle("Fish (PA) and physical habitat comparision")
 
 
+#### export graphics 
 jpeg(filename="residual_concordance_PA.jpeg",  width=270, height=120, units="mm", bg="white", res=300)
 ggarrange(parasite_host, host_envi, common.legend = TRUE, nrow = 1, ncol=2, labels = "AUTO")
 dev.off()
 
 
 # parasite and host 
-library(agricolae)
 res.mod <- aov(res_host_parasite_pa ~ season + as.factor(plot)
                , data= residuals_concordance)
 library(DescTools)
@@ -203,9 +214,6 @@ res.mod
 TukeyHSD(res.mod)
 EtaSq(res.mod, type=1, anova=TRUE)
 
-out <-HSD.test(res.mod, 'season', group=TRUE)
-out
-
 # host and envi
 res.mod.2 <- aov(res_host_phys_pa ~ season + as.factor(plot)
                , data= residuals_host_concordance)
@@ -213,12 +221,15 @@ summary(res.mod.2)
 EtaSq(res.mod.2, type=1, anova=TRUE)
 
 #################################################################################################################
-# pairwise protest graphic 
+# pairwise protest graphic ; not used in the MS
 #################################################################################################################
 
-river_sub <-river_protest %>% filter(var1=="parasite_pa") %>% drop_na() %>% 
+river_sub <-river_protest %>% 
+  filter(var1=="parasite_pa") %>% 
+  drop_na() %>% 
   mutate(significance = if_else(p_value >= 0.05, 'NS', 'Sign')) 
   #mutate_if(is.numeric, round, 3) 
+
 pa_concor <- river_sub %>% ggplot()+
  # annotate("rect", xmin = 0, xmax = 6, ymin = 0.45, ymax = 0.65,alpha = .15)+
   geom_point(aes(x=order, y = ms_square , fill=significance, # fill= group,
@@ -239,8 +250,11 @@ pa_concor <- river_sub %>% ggplot()+
  # geom_hline(yintercept = 0.65, lty=2)+
   ylim(c(0.45,0.9))
 
-river_sub2 <-river_protest %>% filter(var1=="parasite") %>% drop_na() %>% 
+river_sub2 <-river_protest %>% 
+  filter(var1=="parasite") %>% 
+  drop_na() %>% 
   mutate(significance = if_else(p_value >= 0.05, 'NS', 'Sign')) 
+
 #mutate_if(is.numeric, round, 3) 
 num_concor <- river_sub2 %>% ggplot()+
   # annotate("rect", xmin = 0, xmax = 6, ymin = 0.45, ymax = 0.65,alpha = .15)+
