@@ -80,12 +80,18 @@ passaic_diversity <-out$AsyEst #lists the observed diversity, asymptotic estimat
 passaic_richness <- passaic_diversity %>% filter(Diversity=='Species richness') 
 
 #### graph richness 
-pparasite <-passaic_richness %>%
+pparasite <-
   ggplot()+
-  geom_point(aes(x=Estimator,y = Site),size=2)+
-  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  geom_point(data= passaic_richness,
+             aes(x=Estimator,y = Site),
+             size=2)+
+  geom_point(data = passaic_richness, 
+             aes(x=Observed,y = Site),
+             position = position_jitter( h = 0.25),
+             pch=21, size=2)+
   labs(x="richness",y= "")+
   ggtitle("Parasite Passaic River")+
+ # coord_flip()+
   theme_bw()
 
 ######### upstream site only 
@@ -232,14 +238,16 @@ m2 <- c(1, 100, 200, 500, 1000, 5000, 7000, 10000, 15000)
 out2 <- iNEXT(rlist, q=c(0), datatype="abundance", size=m2, nboot=999)
 
 #### export info
-raritan_diversity <-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+raritan_diversity <-out2$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
 raritan_richness <- raritan_diversity %>% filter(Diversity=='Species richness') 
 
 #### graph richness 
 rparasite <-raritan_richness %>%
   ggplot()+
   geom_point(aes(x=Estimator,y = Site), size=2)+
-  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  geom_point(aes(x=Observed,y = Site),
+             position = position_jitter( h = 0.25),
+             pch=21, size=2)+
   labs(x="richness",y= "")+
   ggtitle("Parasite Raritan River")+
   theme_bw()
@@ -409,7 +417,9 @@ passaicfish_richness <- passaicfish_diversity %>% filter(Diversity=='Species ric
 pfish <-passaicfish_richness %>%
   ggplot()+
   geom_point(aes(x=Estimator,y = Site),size=2)+
-  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  geom_point(aes(x=Observed,y = Site),        
+             position = position_jitter( h = 0.25),
+             pch=21, size=2)+
   labs(x="richness",y= "")+
   ggtitle("Fish Passaic River")+
   theme_bw()
@@ -566,7 +576,9 @@ raritanfish_richness <- raritanfish_diversity %>% filter(Diversity=='Species ric
 rfish <-raritanfish_richness %>%
   ggplot()+
   geom_point(aes(x=Estimator,y = Site), size=2)+
-  geom_point(aes(x=Observed,y = Site), pch=21, size=2)+
+  geom_point(aes(x=Observed,y = Site),         
+             position = position_jitter( h = 0.25),
+             pch=21, size=2)+
   labs(x="richness",y= "")+
   ggtitle("Fish Raritan River")+
   theme_bw()
@@ -690,8 +702,10 @@ dev.off()
 ##########################################################################
 
 jpeg(filename="richness_estimator_values.jpeg", width=270, height=180, units="mm", bg="white", res=300)
-ggarrange(pparasite, rparasite, pfish, rfish, ncol=2, nrow=2)
+ggarrange(pfish, pparasite,rfish, rparasite, ncol=2, nrow=2, labels='AUTO')
 dev.off()
+
+############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
