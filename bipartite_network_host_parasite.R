@@ -28,7 +28,8 @@ river <- river %>% drop_na()
 parasite <- river  %>% 
   group_by(host_species, river) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
-  select(c(1,2, 28:64)) %>%  #mutate_if(is.numeric, ~1 * (. != 0)) %>% 
+  select(c(1,2, 28:64)) %>% 
+  mutate_if(is.numeric, ~1 * (. != 0)) %>% 
   drop_na() %>% 
   gather(parasite, infection, 3:39)# %>%
   #filter(infection >0)
@@ -49,11 +50,11 @@ parasite$parasite<-gsub("eocolis_sp","Eocolis sp.",  parasite$parasite)
 parasite$parasite<-gsub("eustronglyoides_sp","Eustronglyoides sp.",  parasite$parasite)
 parasite$parasite<-gsub("Fessesentis_adult","Fessesentis sp.",  parasite$parasite)
 parasite$parasite<-gsub("jelly_metacercariae","Metacercariae 1 (Heterophyidae)",  parasite$parasite)
-parasite$parasite<-gsub("leptorhynchoides_larval","Leptorhynchoides (larval)",  parasite$parasite)
-parasite$parasite<-gsub("leptorhynchoids_adult","Leptorhynchoides thecatus (adult)",  parasite$parasite)
+parasite$parasite<-gsub("leptorhynchoides_larval","Leptorhynchoides (la)",  parasite$parasite)
+parasite$parasite<-gsub("leptorhynchoids_adult","Leptorhynchoides thecatus (ad)",  parasite$parasite)
 parasite$parasite<-gsub("neoechinorhynchus_cristatus","Neoechinorhynchus cristatus",  parasite$parasite)
-parasite$parasite<-gsub("neoechinorhynchus_cylindratus_ad","Neoechinorhynchus cylindratus (adult)",  parasite$parasite)
-parasite$parasite<-gsub("neoechinorhynchus_larval","Neoechinorhynchus (larval)",  parasite$parasite)
+parasite$parasite<-gsub("neoechinorhynchus_cylindratus_ad","Neoechinorhynchus cylindratus (ad)",  parasite$parasite)
+parasite$parasite<-gsub("neoechinorhynchus_larval","Neoechinorhynchus sp. (la)",  parasite$parasite)
 parasite$parasite<-gsub("phyllodistomum","Phyllodistomum sp.",  parasite$parasite)
 parasite$parasite<-gsub("plagioporus","Plagioporus sp.",  parasite$parasite)
 parasite$parasite<-gsub("proteocephalus","Proteocephalus sp.",  parasite$parasite)
@@ -158,7 +159,7 @@ adj  = 0.5
 
 #plot both networks in one graphic 
 
-jpeg(filename="bipartie_networks.jpeg", width=180, height=270, units="mm", bg="white", res=300)
+jpeg(filename="bipartie_networks.jpeg", width=180, height=300, units="mm", bg="white", res=300)
 plot.new()
 par(mfrow=c(2,1))
 #layout(mat, c(3.5,1), c(1,3))
