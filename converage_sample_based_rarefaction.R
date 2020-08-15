@@ -17,6 +17,9 @@ river <- river[,-c(38,57)] # remove notes that were in excel file... trash
 set.seed(1234567890)
 river$plot <- as.factor(river$plot)
 river$subplot <- as.factor(river$subplot)
+river <- river %>% dplyr::select(-c(sex))
+river <- river %>% drop_na()
+river$host_species <-gsub("Etheostoma olmstedi_","Etheostoma olmstedi",  river$host_species)
 
 envi <- river  %>% 
   group_by(river, plot) %>%
@@ -31,7 +34,7 @@ parasite <- river  %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
   unite(river_plot_season, river, plot, season, season, sep = '_') #merge characters from columns into one thing
 
-p_matrix<-parasite[,c(26:63)] # makes new matrix with parasite data (columns 28-65)
+p_matrix<-parasite[,c(25:62)] # makes new matrix with parasite data (columns 28-65)
 id <- unique(parasite$river_plot_season)
 
 
@@ -374,13 +377,16 @@ dev.off()
 
 # abundance based FISH MATRIX 
 fish_01 <- river %>%  
-  mutate(abun = rep(1)) %>% group_by(river, plot, season, subplot, host_species) %>%
-  summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% spread(host_species, abun)
-fish_01[,26:ncol((fish_01))][is.na(fish_01[,26:ncol((fish_01))])] <- 0
+  mutate(abun = rep(1)) %>% 
+  group_by(river, plot, season, subplot, host_species) %>%
+  summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% 
+  spread(host_species, abun)
+
+fish_01[,25:ncol((fish_01))][is.na(fish_01[,25:ncol((fish_01))])] <- 0
 fish <- fish_01 %>%
   group_by(river, plot, season) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) 
-fish <- fish[,-c(1:65,91)] # remove parasite data
+fish <- fish[,-c(1:64)] # remove parasite data
 
 fish <- as.matrix(fish)
 #rownames(fish) <- c("passaic_upstream", "passaic_midstream", "passaic_downstream",
@@ -707,6 +713,54 @@ dev.off()
 
 ############################################################################################
 ############################################################################################
+
+raritan_rich_est_df <- merge(raritanfish_richness, raritan_richness, by=c("Site")) %>% mutate(river ="Raritan")
+passaic_rich_est_df <- merge(passaicfish_richness, passaic_richness, by=c("Site")) %>% mutate(river ="Passaic")
+
+rich_est_all <- rbind(raritan_rich_est_df, passaic_rich_est_df) 
+head(rich_est_all)
+
+obs <-rich_est_all %>%
+  ggplot()+
+  geom_point(aes(x=Observed.x, y= Observed.y, fill=river), pch=21,size=3)+
+  theme_bw(base_size = 15) +
+  labs(x="fish richness (obs.)", y ="parasite richness (obs.)")+
+  scale_fill_manual(values=c('white', 'black'),
+                    guide=guide_legend(override.aes=list(shape=21))) +
+  guides(fill=guide_legend("River",  keywidth=0.12,
+                           keyheight=0.12, override.aes = list(shape=21),
+                           default.unit="inch"), color= FALSE) +
+  theme(legend.title = element_text(size=7, face="bold"),
+        legend.text = element_text(size=6.5))+ 
+  xlim(c(0,15))+
+  ylim(c(0,27))+
+  theme_bw()
+
+obs.rltn <-lm(Observed.y~Observed.x, data= rich_est_all)
+summary(obs.rltn)
+
+est <-rich_est_all %>%
+  ggplot()+
+  geom_point(aes(x=Estimator.x, y= Estimator.y, fill=river), size=3,pch=21)+
+  theme_bw(base_size = 15) +
+  labs(x="fish richness (est.)", y ="parasite richness (est.)")+
+  scale_fill_manual(values=c('white', 'black'),
+                    guide=guide_legend(override.aes=list(shape=21))) +
+  guides(fill=guide_legend("River",  keywidth=0.12,
+                           keyheight=0.12, override.aes = list(shape=21),
+                           default.unit="inch"), color= FALSE) +
+  theme(legend.title = element_text(size=7, face="bold"),
+        legend.text = element_text(size=6.5))+ 
+  xlim(c(0,20))+
+  ylim(c(0,34))+
+  theme_bw()
+
+est.rltn <-lm(Estimator.y~Estimator.x, data= rich_est_all)
+summary(est.rltn)
+
+jpeg(filename="obs_est_richness_relationship.jpeg", width=180, height=90,units="mm", bg="white", res=300)
+ggarrange(obs, est, labels='AUTO',common.legend = TRUE)
+dev.off()
 ############################################################################################
 ############################################################################################
 
