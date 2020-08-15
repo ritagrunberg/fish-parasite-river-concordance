@@ -42,17 +42,17 @@ fish_01 <- river %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% 
   spread(host_species, abun)
 
-fish_01[,27:ncol((fish_01))][is.na(fish_01[,27:ncol((fish_01))])] <- 0
+fish_01[,25:ncol((fish_01))][is.na(fish_01[,25:ncol((fish_01))])] <- 0
 fish <- fish_01 %>%
   group_by(river, plot, season) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) 
 
-fish <- fish[,-c(26:64,89)] # remove parasite data
+fish <- fish[,-c(26:64)] # remove parasite data
 
 #calculate fish diversity metrics 
-fish$fish_richness <- hill_taxa(fish[26:49], q = 0, MARGIN = 1, base = exp(1) )
-fish$fish_hill_shannon <- hill_taxa(fish[26:49], q = 1, MARGIN = 1, base = exp(1))
-fish$fish_hill_simpson <- hill_taxa(fish[26:49], q = 2, MARGIN = 1, base = exp(1))
+fish$fish_richness <- hill_taxa(fish[26:50], q = 0, MARGIN = 1, base = exp(1) )
+fish$fish_hill_shannon <- hill_taxa(fish[26:50], q = 1, MARGIN = 1, base = exp(1))
+fish$fish_hill_simpson <- hill_taxa(fish[26:50], q = 2, MARGIN = 1, base = exp(1))
 
 #combine fish and parasite diversity calculations
 diversity.data.full <- merge(river.diversity, fish, by =c("river", "plot", "season")) 
@@ -64,14 +64,14 @@ plot(fish_hill_shannon~fish_hill_simpson, data= diversity.data)
 #################################################################################3
 # host and parasite richness 
 #################################################################################
-rich.lm2 <- lm(richness~fish_richness*river, data= diversity.data.full)
+rich.lm2 <- lm(richness~fish_richness*river, data= diversity.data)
 summary(rich.lm2)
-rich.lm <- lm(richness~fish_richness, data= diversity.data.full)
+rich.lm <- lm(richness~fish_richness, data= diversity.data)
 summary(rich.lm)
 plot(rich.lm)
 anova(rich.lm2, rich.lm)
 ## generate prediction frame
-pframe <- with(diversity.data.full,
+pframe <- with(diversity.data,
                expand.grid(fish_richness=seq(min(fish_richness),max(fish_richness),length=50) #,
                            #prog=levels(prog)
                )
@@ -79,7 +79,7 @@ pframe <- with(diversity.data.full,
 ## add predicted values (on response scale) to prediction frame
 pframe$richness <- predict(rich.lm, newdata=pframe,type="response")
 
-richn <-ggplot(diversity.data.full)+ 
+richn <-ggplot(diversity.data)+ 
   geom_point( aes(x=fish_richness, y = richness, fill=river),size=3, pch=21) +  
   theme_bw(base_size = 15) +
   labs(x="fish richness", y ="parasite richness")+
