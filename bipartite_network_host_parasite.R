@@ -28,12 +28,12 @@ river <- river %>% drop_na()
 parasite <- river  %>% 
   group_by(host_species, river) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
-  select(c(1,2, 28:64)) %>% 
+  select(c(1,2, 27:64)) %>% 
   mutate_if(is.numeric, ~1 * (. != 0)) %>% 
   drop_na() %>% 
-  gather(parasite, infection, 3:39)# %>%
+  gather(parasite, infection, 3:40)# %>%
   #filter(infection >0)
-
+unique(parasite$parasite)
 #changing names to look better for plotting 
 
 parasite$parasite<-gsub("nematode_sp1","Larval nematode 1",  parasite$parasite)
@@ -50,7 +50,7 @@ parasite$parasite<-gsub("eocolis_sp","Eocolis sp.",  parasite$parasite)
 parasite$parasite<-gsub("eustronglyoides_sp","Eustronglyoides sp.",  parasite$parasite)
 parasite$parasite<-gsub("Fessesentis_adult","Fessesentis sp.",  parasite$parasite)
 parasite$parasite<-gsub("jelly_metacercariae","Metacercariae 1 (Heterophyidae)",  parasite$parasite)
-parasite$parasite<-gsub("leptorhynchoides_larval","Leptorhynchoides (la)",  parasite$parasite)
+parasite$parasite<-gsub("leptorhynchoides_larval","Leptorhynchoides sp. (la)",  parasite$parasite)
 parasite$parasite<-gsub("leptorhynchoids_adult","Leptorhynchoides thecatus (ad)",  parasite$parasite)
 parasite$parasite<-gsub("neoechinorhynchus_cristatus","Neoechinorhynchus cristatus",  parasite$parasite)
 parasite$parasite<-gsub("neoechinorhynchus_cylindratus_ad","Neoechinorhynchus cylindratus (ad)",  parasite$parasite)
@@ -63,10 +63,15 @@ parasite$parasite<-gsub("strigeoidae_larval","Metacercariae 2 (Strigeodiae)",  p
 parasite$parasite<-gsub("Trematode_sp1","Adult trematode 1",  parasite$parasite)
 parasite$parasite<-gsub("triganodistomum","Triganodistomum sp.",  parasite$parasite)
 parasite$parasite<-gsub("uvulifer_ambloplitis","Uvulifer ambloplitis",  parasite$parasite)
+parasite$parasite<-gsub("Caecincola"," Caecincola sp.",  parasite$parasite)
+parasite$parasite<-gsub("Philonema","Philonema sp.",  parasite$parasite)
+parasite$parasite<-gsub("Raphidascaris","Raphidascaris sp.",  parasite$parasite)
+parasite$parasite<-gsub("Isoglaridacris","Isoglaridacris sp.",  parasite$parasite)
 parasite$parasite<-gsub("allocreadium_commune","Allocreadium commune",  parasite$parasite)
 parasite$parasite<-gsub("red_intestinal_nematode","Adult red nematode 1",  parasite$parasite)
 parasite$parasite<-gsub("pomporhynchus_adult","Pomporhynchus sp.",  parasite$parasite)
 parasite$parasite<-gsub("pilum_adult","Pilum sp.",  parasite$parasite)
+parasite$parasite<-gsub("Spinitectus","Spinitectus sp.",  parasite$parasite)
 parasite$parasite<-gsub("tapeworm_sp2","Adult tapeworm 1",  parasite$parasite)
 parasite$host_species<-gsub("Etheostoma olmstedi_","Etheostoma olmstedi",  parasite$host_species)
 
@@ -172,3 +177,15 @@ plotweb(par_mat_raritan, y.width.low=0.05, y.width.high=0.05, y.lim=c(-0.3,2.85)
 title(outer=outer,adj=adj,main="Raritan River",cex.main=cex,col="black",font=2,line=line)
 dev.off()
 
+### look over all parasite interactions 
+par_mat_all <- parasite %>% 
+ # filter(river=="Raritan") %>% 
+  group_by(host_species, parasite) %>%
+  summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
+  group_by(parasite, host_species) %>%
+  filter(sum(infection)>0) %>%
+  spread(parasite, infection)%>% remove_rownames() %>%
+  column_to_rownames(var = 'host_species') %>% select(-c(river))
+
+plotweb(par_mat_all, y.width.low=0.05, y.width.high=0.05, text.rot = 90,y.lim=c(-0.3,2.85),
+        arrow="down",col.high="grey")
