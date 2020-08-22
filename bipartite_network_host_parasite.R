@@ -176,7 +176,7 @@ plotweb(par_mat_raritan, y.width.low=0.05, y.width.high=0.05, y.lim=c(-0.3,2.85)
                   text.rot = 90, arrow="down", col.high="grey")
 title(outer=outer,adj=adj,main="Raritan River",cex.main=cex,col="black",font=2,line=line)
 dev.off()
-
+#############################################################
 ### look over all parasite interactions 
 par_mat_all <- parasite %>% 
  # filter(river=="Raritan") %>% 
@@ -186,6 +186,10 @@ par_mat_all <- parasite %>%
   filter(sum(infection)>0) %>%
   spread(parasite, infection)%>% remove_rownames() %>%
   column_to_rownames(var = 'host_species') %>% select(-c(river))
+
+head(par_mat_all)
+colSums(par_mat_all)
+rowSums(par_mat_all)
 
 plotweb(par_mat_all, y.width.low=0.05, y.width.high=0.05, text.rot = 90,y.lim=c(-0.3,2.85),
         arrow="down",col.high="grey")
