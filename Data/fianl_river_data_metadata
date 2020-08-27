@@ -1,0 +1,29 @@
+Metadata for final_river_data.csv
+
+river: watershed sampled
+season: time of sample
+plot: 100m stream reach sampled within watershed, 1 = upstream, 2 = midstream, 3 = upstream
+subplot: 20m subsection sampled within plot
+width_m: width of subplot in meters
+area_m: total area of subplot sampled in m2
+volume_m3: volume of subplot sampled
+temp_C: temperature in C of subplot
+pH: pH measurement of subplot
+conductivity: conductivity measurement of subplot
+TDS: total dissolved solids measurement of subplot
+salinity: salinity measuremnt of subplot
+flow_m_s: stream flow measured, only done in fall sample
+depth_m: depth of subplot in meters
+student_1: name of undergraduate helper in the field
+student_2: name of undergraduate helper in the field
+date: date of sample; month-date-year
+code: unique ID code, first letter designates river, first number designates plot, second number designates subplot
+fish_number: number ID for fish host
+host_common_name: common name of fish
+host_species: genus and species of fish
+sex: fish sex, NA used for immature
+length_mm: standard length of fish in millimeters
+wet_weight_g: wet weight of fish in grams
+dry_weight_g: dry weight of fish in grams
+
+Headers for columns 28:66 include parasite names used in raw datasheets and each column contains parasite counts for the respective parasite taxa. Note final taxonomic IDs are presented in the parasite networks.  
