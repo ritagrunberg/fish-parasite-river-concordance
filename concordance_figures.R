@@ -29,10 +29,19 @@ pro1 <- river_protest %>%
   summarise_at(c('ms_square'),mean) %>%
   ungroup()
 pro1 <- data.frame(pro1)
-pro2 <- data.frame(var1 = river_protest$var2, var2 = river_protest$var1, ms_square = river_protest$ms_square, river= river_protest$river)
+pro2 <- data.frame(var1 = river_protest$var2,
+                   var2 = river_protest$var1, 
+                   ms_square = river_protest$ms_square, 
+                   river= river_protest$river)
 
-pro3 <- data.frame(var1 = river_protest$var1, var2 = river_protest$var2, p_value = river_protest$p_value, river= river_protest$river)
-pro4 <- data.frame(var1 = river_protest$var2, var2 = river_protest$var1, p_value = river_protest$p_value, river= river_protest$river)
+pro3 <- data.frame(var1 = river_protest$var1,
+                   var2 = river_protest$var2, 
+                   p_value = river_protest$p_value, 
+                   river= river_protest$river)
+pro4 <- data.frame(var1 = river_protest$var2, 
+                   var2 = river_protest$var1, 
+                   p_value = river_protest$p_value, 
+                   river= river_protest$river)
 
 protest_matrix <- (rbind(pro1, pro2))
 pval_matrix <- (rbind(pro3, pro4))
@@ -102,7 +111,7 @@ formatted_pro_mat <- formatted_pro_mat %>% gather(var2, ms_square, 2:8)
 pval_mat <- rbind(pval_matrix_raritan, pval_matrix_passaic)
 pval_mat <- pval_mat %>% gather(var2, p_value, 2:8)
 
-#overide fucking ggplot ordering vars by alphabetical order 
+#override ggplot ordering vars by alphabetical order 
 formatted_pro_mat$var1 <- factor(formatted_pro_mat$var1, levels=c("parasite",  "parasite_pa", "fish", "fish_biomass" ,"fish_pa", "physical" , "chemical"))
 formatted_pro_mat$var2 <- factor(formatted_pro_mat$var2, levels=c("parasite",  "parasite_pa", "fish", "fish_biomass" ,"fish_pa", "physical" , "chemical"))
 
@@ -140,8 +149,18 @@ formatted_pro_mat %>%
   theme(axis.text.x = element_text( angle=90)) +guides(fill=FALSE)+ facet_wrap(~river)+
   theme(strip.background = element_rect(colour="black", fill="white"), strip.text.x = element_text(size=10)) + 
   theme(panel.border = element_rect(colour = "black", fill=NA, size=0.5))+ #add black square panel around graphic
-  scale_x_discrete(labels=c("parasite_pa" = "parasite (PA)", "fish_biomass" = "fish (biomass)", "fish_pa" = "fish (PA)"))+
-  scale_y_discrete(labels=c("parasite_pa" = "parasite (PA)", "fish_biomass" = "fish (biomass)", "fish_pa" = "fish (PA)"))
+  scale_x_discrete(labels=c("parasite" = "parasite abundance", 
+                            "parasite_pa" = "parasite composition", 
+                            "fish_biomass" = "fish biomass", 
+                            "fish_pa" = "fish composition",
+                            "fish" = "fish abundance",
+                            "chemical"= "water qual."))+
+  scale_y_discrete(labels=c("parasite" = "parasite abundance", 
+                            "parasite_pa" = "parasite composition",
+                            "fish_biomass" = "fish biomass", 
+                            "fish_pa" = "fish composition",
+                            "fish" = "fish abundance",
+                            "chemical"= "water qual."))
 dev.off()
 
 #################################################################################################################
