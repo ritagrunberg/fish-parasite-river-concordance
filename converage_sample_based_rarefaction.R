@@ -9,10 +9,8 @@ library(ggpubr)  # nice package for figures
 library(vegan)   # nmds 
 library(iNEXT)
 ###########################################################################################
-# AIM TESTING FOR CONCORDANCE BETWEEN ALL PARASITES PRESENT IN ECOSYSTEM AND HOST + ENVIR VARIABLES 
-# import dataseIt
+# import dataset 
 river <- read_csv("C:/Users/grunberg/Dropbox/DISSERTATION_CHAPTERS/1_parasite_community_spatial/data/final_river_data.csv")
-coordinates <- read_csv("Concordance_submitted_MS/Revision/data_files/river_coordinates.csv")
 river <- river[,-c(38,57)] # remove notes that were in excel file... trash 
 set.seed(1234567890)
 river$plot <- as.factor(river$plot)
@@ -21,13 +19,12 @@ river <- river %>% dplyr::select(-c(sex))
 river <- river %>% drop_na()
 river$host_species <-gsub("Etheostoma olmstedi_","Etheostoma olmstedi",  river$host_species)
 
+# formatting data to get site level means 
 envi <- river  %>% 
   group_by(river, plot) %>%
   # summarise_if(.predicate = function(x) is.numeric(x), .funs = funs(mean="mean"))
   summarise_all(funs(if(is.numeric(.)) mean(., na.rm = TRUE) else first(.))) %>%
   unite(river_plot, river, plot, season, sep = '_') #merge characters from columns into one thing
-
-
 parasite <- river  %>% 
   group_by(river, plot, season) %>%
   # summarise_if(.predicate = function(x) is.numeric(x), .funs = funs(mean="mean"))
@@ -78,9 +75,12 @@ out <- iNEXT(plist, q=c(0), datatype="abundance", size =m)
 out
 out$iNextEst
 
+#diversity estimates
+passaic_richness  <- estimateD(plist,datatype="abundance", base="coverage", level=0.99, conf=0.95)
+
 #### export info
-passaic_diversity <-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
-passaic_richness <- passaic_diversity %>% filter(Diversity=='Species richness') 
+passaic_diversity2 <-out$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+passaic_richness2 <- passaic_diversity %>% filter(Diversity=='Species richness') 
 
 #### graph richness 
 pparasite <-
@@ -241,8 +241,10 @@ m2 <- c(1, 100, 200, 500, 1000, 5000, 7000, 10000, 15000)
 out2 <- iNEXT(rlist, q=c(0), datatype="abundance", size=m2, nboot=999)
 
 #### export info
-raritan_diversity <-out2$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
-raritan_richness <- raritan_diversity %>% filter(Diversity=='Species richness') 
+raritan_richness <- estimateD(rlist,datatype="abundance", base="coverage", level=0.99, conf=0.95)
+
+raritan_diversity2 <-out2$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+raritan_richness2 <- raritan_diversity %>% filter(Diversity=='Species richness') 
 
 #### graph richness 
 rparasite <-raritan_richness %>%
@@ -414,9 +416,11 @@ m3 <- c(1, 10, 50, 100, 125, 150, 200)
 
 out3 <- iNEXT(pflist, q=c(0), datatype ="abundance", nboot=999, size=m3)
 
+passaicfish_richness <- estimateD(pflist,datatype="abundance", base="coverage", level=0.99, conf=0.95)
+
 #### export info
-passaicfish_diversity <-out3$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
-passaicfish_richness <- passaicfish_diversity %>% filter(Diversity=='Species richness') 
+passaicfish_diversity2 <-out3$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+passaicfish_richness2 <- passaicfish_diversity %>% filter(Diversity=='Species richness') 
 
 
 #### graph richness 
@@ -574,9 +578,11 @@ m4 <- c(1, 10, 50, 100,  150, 200, 400, 600, 1200)
 out4 <- iNEXT(rflist, q=c(0), datatype="abundance", nboot=999, size=m4)
 out4$DataInfo
 
+raritanfish_richness <- estimateD(rflist,datatype="abundance", base="coverage", level=0.985, conf=0.95)
+
 #### export info
-raritanfish_diversity <-out4$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
-raritanfish_richness <- raritanfish_diversity %>% filter(Diversity=='Species richness') 
+raritanfish_diversity2 <-out4$AsyEst #lists the observed diversity, asymptotic estimates, estimated bootstrap s.e. and 95% confidence intervals for Hill numbers with q = 0, 1, and 2.
+raritanfish_richness2 <- raritanfish_diversity %>% filter(Diversity=='Species richness') 
 
 #### graph richness 
 rfish <-raritanfish_richness %>%
@@ -712,9 +718,16 @@ ggarrange(pfish, pparasite,rfish, rparasite, ncol=2, nrow=2, labels='AUTO')
 dev.off()
 
 ############################################################################################
+# extract diversity estimates based on sample coverage and put into one dataframe
 ############################################################################################
 
-raritan_rich_est_df <- merge(raritanfish_richness, raritan_richness, by=c("Site")) %>% mutate(river ="Raritan")
+# select q = 0; for richness only rarefaction and rename col headers 
+#raritanfish.est <- raritanfish_richness %>% mutate(fish_richness = qD)%>% filter(order==0) %>% dplyr::select(site, fish_richness) 
+#raritanparasiet.est <- raritan_richness %>% mutate(parasite_richness = qD)%>% filter(order==0) %>% dplyr::select(site, parasite_richness) 
+#passaicfish.est <- passaicfish_richness %>% mutate(fish_richness = qD)%>% filter(order==0) %>% dplyr::select(site, fish_richness) 
+#passaicparasiet.est <- passaic_richness %>% mutate(parasite_richness = qD)%>% filter(order==0) %>% dplyr::select(site, parasite_richness) 
+
+raritan_rich_est_df <- merge(raritanfish_richnes, raritan_richness, by=c("Site")) %>% mutate(river ="Raritan")
 passaic_rich_est_df <- merge(passaicfish_richness, passaic_richness, by=c("Site")) %>% mutate(river ="Passaic")
 
 rich_est_all <- rbind(raritan_rich_est_df, passaic_rich_est_df) 
@@ -741,7 +754,7 @@ summary(obs.rltn)
 
 est <-rich_est_all %>%
   ggplot()+
-  geom_point(aes(x=Estimator.x, y= Estimator.y, fill=river), size=3,pch=21)+
+  geom_point(aes(x=Estimator.x, y= Estimator.ys, fill=river), size=3,pch=21)+
   theme_bw(base_size = 15) +
   labs(x="fish richness (est.)", y ="parasite richness (est.)")+
   scale_fill_manual(values=c('white', 'black'),
@@ -751,8 +764,8 @@ est <-rich_est_all %>%
                            default.unit="inch"), color= FALSE) +
   theme(legend.title = element_text(size=7, face="bold"),
         legend.text = element_text(size=6.5))+ 
-  xlim(c(0,20))+
-  ylim(c(0,34))+
+ # xlim(c(0,20))+
+#  ylim(c(0,34))+
   theme_bw()
 
 est.rltn <-lm(Estimator.y~Estimator.x, data= rich_est_all)
