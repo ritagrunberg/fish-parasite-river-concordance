@@ -97,7 +97,7 @@ nmds_parasite <-ggplot(parasite_all, aes(x= NMDS1, y=NMDS2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"))+
-  geom_text(data=pcoordO, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
+ # geom_text(data=pcoordO, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1)) # add black square panel around graphic
 
 ###########################################################################################
@@ -150,7 +150,7 @@ nmds_parasite_PA <-ggplot(parasite_all_pa, aes(x= NMDS1, y=NMDS2))+
          shape= guide_legend("River",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
-  geom_text(data=pcoordOpa, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
+ # geom_text(data=pcoordOpa, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1)) # add black square panel around graphic
 
 ############################################################################
@@ -270,7 +270,7 @@ nmds_phy <-ggplot(habitat_phy, aes(x= PC1, y=PC2))+
 fish_01 <- river %>% filter (river == "Raritan") %>% 
   mutate(abun = rep(1)) %>% group_by(river, plot, season, subplot, host_species) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% spread(host_species, abun)
-fish_01[,20:ncol((fish_01))][is.na(fish_01[,20:ncol((fish_01))])] <- 0
+fish_01[,27:ncol((fish_01))][is.na(fish_01[,27:ncol((fish_01))])] <- 0
 fish <- fish_01 %>%
   group_by(river, plot, subplot, season) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
@@ -332,8 +332,8 @@ nmds_fish_abun <-ggplot(fish_all, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
   geom_point( size =2.75, aes(fill=plot), pch=21)+
-  xlab("NMDS 1") +
-  ylab("NMDS 2") +
+  xlab("NMDS 1 (B-C)") +
+  ylab("NMDS 2 (B-C)") +
   xlim(c( bott-0.3, topp+0.2)) +
   ylim(c( bott-0.3, topp+0.2)) +
   scale_shape_manual(values=c(21, 24))+
@@ -352,7 +352,7 @@ nmds_fish_abun <-ggplot(fish_all, aes(x= NMDS1, y=NMDS2))+
          shape= guide_legend("River",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
-  geom_text(data=fishcoordO, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
+#  geom_text(data=fishcoordO, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
 
 ##########################################################################################
@@ -406,7 +406,7 @@ nmds_fish_pa <-ggplot(fish_all_pa, aes(x= NMDS1, y=NMDS2))+
          shape= guide_legend("River",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
-  geom_text(data=fishcoordOpa, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
+ # geom_text(data=fishcoordOpa, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))
 
 ################################################################################################
@@ -416,7 +416,7 @@ fish_02 <- river %>% filter (river == "Raritan") %>%
   mutate(abun = rep(1)) %>% 
   group_by(river, plot, season, subplot, host_species) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>% spread(host_species, dry_weight_g)
-fish_02[,20:ncol(fish_02)][is.na(fish_02[,20:ncol(fish_02)])] <- 0
+fish_02[,27:ncol(fish_02)][is.na(fish_02[,27:ncol(fish_02)])] <- 0
 fish2 <- fish_02 %>%
   group_by(river,season, plot, subplot) %>%
   summarise_all(funs(if(is.numeric(.)) sum(., na.rm = TRUE) else first(.))) %>%
@@ -476,30 +476,40 @@ nmds_biomass <-ggplot(fish_all_02, aes(x= NMDS1, y=NMDS2))+
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
   ggtitle("Fish biomass")+
-  theme(legend.text = element_text(size=8), legend.box = "horizontal",
-        legend.title = element_text(size=9, face="bold"),
-        legend.position=c(0.15,0.15)) +
+  theme(legend.text = element_text(size=12), # legend.box = "horizontal",
+        legend.title = element_text(size=15, face="bold") #,
+        #legend.position=c(0.13,0.85)
+  ) +
   guides(colour = guide_legend(override.aes = list(size=70)))+
   theme(plot.title = element_text(hjust = 0.5, size=15, face="bold")) + # guides(shape=FALSE)+ 
   guides(fill=guide_legend("Site",  keywidth=0.12,
-                           keyheight=0.12, override.aes = list(shape=21),
+                           keyheight=0.12, override.aes = list(shape=21, size=5),
                            default.unit="inch"))+
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
 
 #############################################################################################
 # export graphic of all ordinations 
 #############################################################################################
+get_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+legend.passaic <- get_legend(nmds_biomass)
+library(gridExtra)
+library(grid)
 
 jpeg(file="Raritan_River_ordinations.jpeg", width = 180, height = 270, units = 'mm', res = 300)
-ggarrange(nmds_habitat, 
-          nmds_phy, 
-          nmds_fish_abun,
-          nmds_fish_pa, 
-          nmds_parasite,  
-          nmds_parasite_PA ,
-          common.legend = TRUE,
-          ncol = 2,
-          nrow = 3)
+grid.arrange(arrangeGrob(nmds_habitat +theme(legend.position="none"),  
+                         nmds_phy+theme(legend.position="none"),   
+                         nmds_fish_abun+theme(legend.position="none"),  
+                         nmds_fish_pa +theme(legend.position="none"),  
+                         nmds_parasite +theme(legend.position="none"),   
+                         nmds_parasite_PA + theme(legend.position="none"), 
+                         nrow=3, ncol=2), 
+             legend.passaic, 
+             nrow=2,heights=c(10, 0.75))
+
 dev.off()
 
 
