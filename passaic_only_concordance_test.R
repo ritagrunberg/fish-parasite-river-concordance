@@ -73,12 +73,12 @@ parasite_all$plot <- as.factor(parasite_all$plot)
 nmds_parasite <-ggplot(parasite_all, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("NMDS 1 (B-C)") +
   ylab("NMDS 2 (B-C)") +
   xlim(c( bott-0.2, topp+0.2)) +
   ylim(c( bott-0.2, topp+0.2)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
@@ -91,7 +91,7 @@ nmds_parasite <-ggplot(parasite_all, aes(x= NMDS1, y=NMDS2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
  # geom_text(data=pcoordO, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
@@ -127,12 +127,12 @@ parasite_all_pa$plot <- as.factor(parasite_all_pa$plot)
 nmds_parasite_PA <-ggplot(parasite_all_pa, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("NMDS 1 (JAC)") +
   ylab("NMDS 2 (JAC)") +
   xlim(c( bott-0.4, topp+0.4)) +
   ylim(c( bott-0.4, topp+0.4)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
@@ -145,7 +145,7 @@ nmds_parasite_PA <-ggplot(parasite_all_pa, aes(x= NMDS1, y=NMDS2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
 #  geom_text(data=pcoordOpa, aes(x=NMDS1,y=NMDS2, label=parasite), fontface =2, colour = "black" , size=1.5) +
@@ -200,12 +200,12 @@ habitat_chem$plot <- as.factor(habitat_chem$plot)
 nmds_habitat <-ggplot(habitat_chem, aes(x= PC1, y=PC2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("PC 1") +
   ylab("PC 2") +
   xlim(c( bott, topp)) +
   ylim(c( bott, topp)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
@@ -218,7 +218,7 @@ nmds_habitat <-ggplot(habitat_chem, aes(x= PC1, y=PC2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
@@ -237,10 +237,10 @@ nmds_phy <-ggplot(habitat_phy, aes(x= PC1, y=PC2))+
   geom_vline(xintercept = 0, lty=2, color="grey") +
   xlab("PC 1") +
   ylab("PC 2") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlim(c( bott, topp)) +
   ylim(c( bott, topp)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
@@ -253,7 +253,7 @@ nmds_phy <-ggplot(habitat_phy, aes(x= PC1, y=PC2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
@@ -328,7 +328,7 @@ fish_all$plot <- as.factor(fish_all$plot)
 nmds_fish_abun <-ggplot(fish_all, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("NMDS 1 (B-C)") +
   ylab("NMDS 2 (B-C)") +
   xlim(c( bott-0.2, topp+0.2)) +
@@ -336,6 +336,7 @@ nmds_fish_abun <-ggplot(fish_all, aes(x= NMDS1, y=NMDS2))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
+  scale_shape_manual(values=c(21, 22,23, 24))+
   ggtitle("Fish abundance")+
   theme(legend.text = element_text(size=8), legend.box = "horizontal",
         legend.title = element_text(size=9, face="bold"),
@@ -345,7 +346,7 @@ nmds_fish_abun <-ggplot(fish_all, aes(x= NMDS1, y=NMDS2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
  # geom_text(data=fishcoordO, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
@@ -381,12 +382,12 @@ fish_all_pa$plot <- as.factor(fish_all_pa$plot)
 nmds_fish_pa <-ggplot(fish_all_pa, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("NMDS 1 (JAC)") +
   ylab("NMDS 2 (JAC)") +
   xlim(c( bott-0.4, topp+0.4)) +
   ylim(c( bott-0.4, topp+0.4)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
@@ -399,7 +400,7 @@ nmds_fish_pa <-ggplot(fish_all_pa, aes(x= NMDS1, y=NMDS2))+
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21),
                            default.unit="inch"),
-         shape= guide_legend("River",  keywidth=0.12,
+         shape= guide_legend("Season",  keywidth=0.12,
                              keyheight=0.12, 
                              default.unit="inch"))+
  # geom_text(data=fishcoordOpa, aes(x=NMDS1,y=NMDS2, label=fish), fontface =2, colour = "black" , size=1.5) +
@@ -462,25 +463,52 @@ fish_all_02$plot <- as.factor(fish_all_02$plot)
 nmds_biomass <-ggplot(fish_all_02, aes(x= NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, lty=2, color="grey") +
   geom_vline(xintercept = 0, lty=2, color="grey") +
-  geom_point( size =2.75, aes(fill=plot), pch=21)+
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
   xlab("NMDS 1") +
   ylab("NMDS 2") +
   xlim(c( bott, topp)) +
   ylim(c( bott, topp)) +
-  scale_shape_manual(values=c(21, 24))+
+  scale_shape_manual(values=c(21, 22,23, 24))+
   scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
                     labels = c("Upstream", "Midstream", "Downstream")) + 
   theme_pubr() +
   ggtitle("Fish Biomass")+
   theme(legend.text = element_text(size=12), # legend.box = "horizontal",
-        legend.title = element_text(size=15, face="bold") #,
+        legend.title = element_text(size=12, face="bold") #,
         #legend.position=c(0.13,0.85)
         ) +
   guides(colour = guide_legend(override.aes = list(size=70)))+
   theme(plot.title = element_text(hjust = 0.5, size=15, face="bold")) + # guides(shape=FALSE)+ 
   guides(fill=guide_legend("Site",  keywidth=0.12,
                            keyheight=0.12, override.aes = list(shape=21, size=5),
-                           default.unit="inch"))+
+                           default.unit="inch"),
+         shape= FALSE) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
+
+
+nmds_biomass2 <-ggplot(fish_all_02, aes(x= NMDS1, y=NMDS2))+
+  geom_hline(yintercept = 0, lty=2, color="grey") +
+  geom_vline(xintercept = 0, lty=2, color="grey") +
+  geom_point( size =2.75, aes(fill=plot, shape=season))+
+  xlab("NMDS 1") +
+  ylab("NMDS 2") +
+  xlim(c( bott, topp)) +
+  ylim(c( bott, topp)) +
+  scale_shape_manual(values=c(21, 22,23, 24))+
+  scale_fill_manual(values=c('#f7f7f7','#969696','#252525'),
+                    labels = c("Upstream", "Midstream", "Downstream")) + 
+  theme_pubr() +
+  ggtitle("Fish Biomass")+
+  theme(legend.text = element_text(size=12), # legend.box = "horizontal",
+        legend.title = element_text(size=12, face="bold") #,
+        #legend.position=c(0.13,0.85)
+  ) +
+  guides(colour = guide_legend(override.aes = list(size=70)))+
+  theme(plot.title = element_text(hjust = 0.5, size=15, face="bold")) + # guides(shape=FALSE)+ 
+  guides(fill=FALSE,
+         shape= guide_legend("Season",  keywidth=0.12,
+                             keyheight=0.12,  override.aes = list(size=5),
+                             default.unit="inch")) +
   theme(panel.border = element_rect(colour = "black", fill=NA, size=1))  # add black square panel around graphic
 
 #############################################################################################
@@ -492,6 +520,8 @@ get_legend<-function(a.gplot){
   legend <- tmp$grobs[[leg]]
   return(legend)}
 legend.passaic <- get_legend(nmds_biomass)
+legend.passaic2 <- get_legend(nmds_biomass2)
+
 library(gridExtra)
 library(grid)
 
@@ -503,8 +533,8 @@ grid.arrange(arrangeGrob(nmds_habitat +theme(legend.position="none"),
                           nmds_parasite +theme(legend.position="none"),   
                           nmds_parasite_PA + theme(legend.position="none"), 
                           nrow=3, ncol=2), 
-             legend.passaic, 
-                          nrow=2,heights=c(10, 0.75))
+             legend.passaic, legend.passaic2,
+                          nrow=3,heights=c(10, 0.4, 0.4))
 
 dev.off()
 
